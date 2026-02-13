@@ -24,6 +24,16 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build frontend assets
+        run: |
+          npm install
+          npm run build
+
       - name: Build with Jekyll
         run: bundle exec jekyll build --future # 미래 날짜 포스트도 포함
         env:
