@@ -16,6 +16,11 @@
   </header>
   <!-- .profile-wrapper -->
 
+  {% assign show_focus_areas = false %}
+  {% if page.url == '/categories/' or page.layout == 'category' %}
+    {% assign show_focus_areas = true %}
+  {% endif %}
+
   <nav class="flex-column flex-grow-1 w-100 ps-0">
     <ul class="nav">
       <!-- home -->
@@ -25,50 +30,102 @@
           <span>{{ site.data.locales[include.lang].tabs.home | upcase }}</span>
         </a>
       </li>
-      <!-- the real tabs -->
+
+      <!-- only selected tabs -->
       {% for tab in site.tabs %}
-        <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
+        {% assign keep_tab = false %}
+        {% if tab.url == '/categories/' or tab.url == '/about/' %}
+          {% assign keep_tab = true %}
+        {% endif %}
+        {% unless keep_tab %}
+          {% continue %}
+        {% endunless %}
+
+        {% assign tab_active = false %}
+        {% if tab.url == page.url %}
+          {% assign tab_active = true %}
+        {% elsif tab.url == '/categories/' and page.layout == 'category' %}
+          {% assign tab_active = true %}
+        {% endif %}
+
+        <li class="nav-item{% if tab_active %}{{ " active" }}{% endif %}">
           <a href="{{ tab.url | relative_url }}" class="nav-link">
             <i class="fa-fw {{ tab.icon }}"></i>
             {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
-
             <span>{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
           </a>
         </li>
-        <!-- .nav-item -->
       {% endfor %}
 
-      {% if site.sidebar_topics and site.sidebar_topics.size > 0 %}
-        <li class="nav-item nav-section-label">
+      {% if show_focus_areas and site.sidebar_focus_areas and site.sidebar_focus_areas.size > 0 %}
+        <li class="nav-item nav-section-label focus-animate">
           <span class="nav-link">
             <i class="fa-fw fas fa-layer-group"></i>
-            <span>{{ site.sidebar_topics_title | default: 'Topics' }}</span>
+            <span>{{ site.sidebar_focus_areas_title | default: 'Focus Areas' | upcase }}</span>
           </span>
         </li>
 
-        {% for topic in site.sidebar_topics %}
-          {% assign topic_name = topic.name | default: topic %}
-          {% assign topic_label = topic.label | default: topic_name %}
-          {% assign topic_posts_count = site.categories[topic_name] | size %}
-          {% capture topic_url %}/categories/{{ topic_name | slugify | url_encode }}/{% endcapture %}
+        {% assign animation_index = 0 %}
+        {% for area in site.sidebar_focus_areas %}
+          {% assign area_name = area.name | default: area %}
+          {% assign area_posts_count = site.categories[area_name] | size %}
+          {% capture area_url %}/categories/{{ area_name | slugify | url_encode }}/{% endcapture %}
+          {% assign animation_index = animation_index | plus: 1 %}
 
           <li
-            class="nav-item nav-topic{% if page.layout == 'category' and page.title == topic_name %}{{ " active" }}{% endif %}{% unless topic_posts_count > 0 %}{{ " disabled" }}{% endunless %}"
+            class="nav-item nav-topic{% if page.layout == 'category' and page.title == area_name %}{{ " active" }}{% endif %}{% unless area_posts_count > 0 %}{{ " disabled" }}{% endunless %} focus-animate"
+            style="animation-delay: {{ animation_index | times: 0.03 }}s;"
           >
-            {% if topic_posts_count > 0 %}
-              <a href="{{ topic_url | relative_url }}" class="nav-link">
+            {% if area_posts_count > 0 %}
+              <a href="{{ area_url | relative_url }}" class="nav-link">
                 <i class="fa-fw far fa-folder"></i>
-                <span>{{ topic_label }}</span>
-                <span class="topic-count">{{ topic_posts_count }}</span>
+                <span>{{ area_name }}</span>
+                <span class="topic-count">{{ area_posts_count }}</span>
               </a>
             {% else %}
               <span class="nav-link" title="No posts yet">
                 <i class="fa-fw far fa-folder"></i>
-                <span>{{ topic_label }}</span>
+                <span>{{ area_name }}</span>
                 <span class="topic-count">0</span>
               </span>
             {% endif %}
           </li>
+
+          {% if area.subtopics and area.subtopics.size > 0 %}
+            {% for subtopic in area.subtopics %}
+              {% assign subtopic_label = subtopic.label | default: subtopic %}
+              {% assign subtopic_tag = subtopic.tag | default: subtopic_label %}
+              {% assign subtopic_posts_count = site.tags[subtopic_tag] | size %}
+              {% capture subtopic_url %}/tags/{{ subtopic_tag | slugify | url_encode }}/{% endcapture %}
+              {% assign animation_index = animation_index | plus: 1 %}
+
+              {% assign subtopic_active = false %}
+              {% if page.layout == 'tag' %}
+                {% if page.title == subtopic_tag or page.title == subtopic_label %}
+                  {% assign subtopic_active = true %}
+                {% endif %}
+              {% endif %}
+
+              <li
+                class="nav-item nav-subtopic{% if subtopic_active %}{{ " active" }}{% endif %}{% unless subtopic_posts_count > 0 %}{{ " disabled" }}{% endunless %} focus-animate"
+                style="animation-delay: {{ animation_index | times: 0.03 }}s;"
+              >
+                {% if subtopic_posts_count > 0 %}
+                  <a href="{{ subtopic_url | relative_url }}" class="nav-link">
+                    <i class="fa-fw fas fa-angle-right"></i>
+                    <span>{{ subtopic_label }}</span>
+                    <span class="topic-count">{{ subtopic_posts_count }}</span>
+                  </a>
+                {% else %}
+                  <span class="nav-link" title="No posts yet">
+                    <i class="fa-fw fas fa-angle-right"></i>
+                    <span>{{ subtopic_label }}</span>
+                    <span class="topic-count">0</span>
+                  </span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          {% endif %}
         {% endfor %}
       {% endif %}
     </ul>

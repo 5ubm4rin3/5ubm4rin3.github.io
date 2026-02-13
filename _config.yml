@@ -106,19 +106,89 @@ social_preview_image: # string, local or CORS resources
 # boolean type, the global switch for TOC in posts.
 toc: true
 
-# Sidebar focus areas (left navigation quick links)
-sidebar_topics_title: Focus Areas
-sidebar_topics:
-  - Math
-  - Computer Science
-  - Web3
-  - Web3 Security
-  - Cyber Security
-  - Cryptography
-  - Post-Quantum Research
-  - Wargame
-  - CTF
-  - PS(Problem Solving)
+# Sidebar focus areas (shown when opening Categories)
+sidebar_focus_areas_title: Focus Areas
+sidebar_focus_areas:
+  - name: Math
+    subtopics:
+      - label: Linear Algebra
+        tag: linear-algebra
+      - label: Number Theory
+        tag: number-theory
+      - label: Discrete Mathematics
+        tag: discrete-mathematics
+  - name: Computer Science
+    subtopics:
+      - label: Operating Systems
+        tag: operating-systems
+      - label: Data Structures
+        tag: data-structures
+      - label: Algorithms
+        tag: algorithms
+  - name: Web3
+    subtopics:
+      - label: Blockchain
+        tag: blockchain
+      - label: Smart Contracts
+        tag: smart-contracts
+      - label: Consensus
+        tag: consensus
+  - name: Web3 Security
+    subtopics:
+      - label: Smart Contract Security
+        tag: smart-contract-security
+      - label: Protocol Security
+        tag: protocol-security
+      - label: DeFi Security
+        tag: defi-security
+  - name: Cyber Security
+    subtopics:
+      - label: Network Security
+        tag: network-security
+      - label: Threat Modeling
+        tag: threat-modeling
+      - label: Incident Response
+        tag: incident-response
+  - name: Cryptography
+    subtopics:
+      - label: Applied Cryptography
+        tag: applied-cryptography
+      - label: Zero-Knowledge Proofs
+        tag: zero-knowledge-proofs
+      - label: Digital Signatures
+        tag: digital-signatures
+  - name: Post-Quantum Research
+    subtopics:
+      - label: Lattice Cryptography
+        tag: lattice-cryptography
+      - label: Kyber
+        tag: kyber
+      - label: Dilithium
+        tag: dilithium
+  - name: Wargame
+    subtopics:
+      - label: Pwnable
+        tag: pwnable
+      - label: Reverse Engineering
+        tag: reverse-engineering
+      - label: Web Exploitation
+        tag: web-exploitation
+  - name: CTF
+    subtopics:
+      - label: Crypto Challenges
+        tag: crypto-challenges
+      - label: Binary Exploitation
+        tag: binary-exploitation
+      - label: Forensics
+        tag: forensics
+  - name: PS(Problem Solving)
+    subtopics:
+      - label: Greedy
+        tag: greedy
+      - label: Dynamic Programming
+        tag: dynamic-programming
+      - label: Graph Algorithms
+        tag: graph-algorithms
 
 comments:
   # Global switch for the post-comment system. Keeping it empty means disabled.
