@@ -29,7 +29,7 @@ github:
   username: 5ubm4rin3
 
 twitter:
-  username: 5ubm4rin3
+  username: 0wn1y_on3
 
 social:
   # Change to your full name.
@@ -106,8 +106,7 @@ social_preview_image: # string, local or CORS resources
 # boolean type, the global switch for TOC in posts.
 toc: true
 
-# Sidebar focus areas (shown when opening Categories)
-sidebar_focus_areas_title: Focus Areas
+# Sidebar categories and subtopics
 sidebar_focus_areas:
   - name: Math
     subtopics:

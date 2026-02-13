@@ -242,6 +242,19 @@ main {
   }
 }
 
+.btn-outline-primary {
+  color: var(--text-color);
+  border-color: var(--btn-border-color);
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--text-color) !important;
+    border-color: var(--btn-border-color) !important;
+    background-color: var(--sidebar-hover-bg) !important;
+  }
+}
+
 .rounded-10 {
   border-radius: 10px !important;
 }
