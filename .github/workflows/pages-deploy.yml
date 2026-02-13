@@ -1,7 +1,7 @@
 name: "Build and Deploy"
 on:
   push:
-    branches: ["master", "main"]
+    branches: ["main", "master"]
   workflow_dispatch:
 
 permissions:
@@ -24,8 +24,15 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
+      # Chirpy 테마의 필수 초기화 단계 추가
+      - name: Initialize Project
+        run: |
+          if [ -f "tools/init.sh" ]; then
+            bash tools/init.sh --no-interaction
+          fi
+
       - name: Build with Jekyll
-        run: bundle exec jekyll build
+        run: bundle exec jekyll build --future # 미래 날짜 포스트도 포함
         env:
           JEKYLL_ENV: production
 
