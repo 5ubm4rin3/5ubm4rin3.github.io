@@ -1,7 +1,7 @@
 ---
-title: "양자 내성 암호(PQC)와 격자 기반 문제"
+title: "Post-Quantum Cryptography (PQC) and Lattice-Based Problems"
 date: 2026-02-13 22:00:00 +0900
-categories: [Cryptography, Quantum]
+categories: [Cryptography, Post-Quantum Research]
 tags: [pqc, lattice, security]
 math: true
 ---

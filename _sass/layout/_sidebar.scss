@@ -171,6 +171,38 @@ $sidebar-display: 'sidebar-display'; /* the attribute for sidebar display */
       &:not(:first-child) {
         margin-top: 0.25rem;
       }
+
+      &.nav-section-label {
+        margin-top: 1rem;
+        opacity: 0.8;
+
+        .nav-link {
+          background-color: transparent;
+          cursor: default;
+          pointer-events: none;
+          font-size: 0.78rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+      }
+
+      &.nav-topic {
+        .nav-link {
+          .topic-count {
+            margin-left: auto;
+            opacity: 0.8;
+            font-size: 0.78rem;
+          }
+        }
+
+        &.disabled {
+          .nav-link {
+            opacity: 0.6;
+            cursor: default;
+            background-color: transparent;
+          }
+        }
+      }
     }
   }
 

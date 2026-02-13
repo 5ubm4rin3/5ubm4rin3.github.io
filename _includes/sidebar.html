@@ -37,6 +37,40 @@
         </li>
         <!-- .nav-item -->
       {% endfor %}
+
+      {% if site.sidebar_topics and site.sidebar_topics.size > 0 %}
+        <li class="nav-item nav-section-label">
+          <span class="nav-link">
+            <i class="fa-fw fas fa-layer-group"></i>
+            <span>{{ site.sidebar_topics_title | default: 'Topics' }}</span>
+          </span>
+        </li>
+
+        {% for topic in site.sidebar_topics %}
+          {% assign topic_name = topic.name | default: topic %}
+          {% assign topic_label = topic.label | default: topic_name %}
+          {% assign topic_posts_count = site.categories[topic_name] | size %}
+          {% capture topic_url %}/categories/{{ topic_name | slugify | url_encode }}/{% endcapture %}
+
+          <li
+            class="nav-item nav-topic{% if page.layout == 'category' and page.title == topic_name %}{{ " active" }}{% endif %}{% unless topic_posts_count > 0 %}{{ " disabled" }}{% endunless %}"
+          >
+            {% if topic_posts_count > 0 %}
+              <a href="{{ topic_url | relative_url }}" class="nav-link">
+                <i class="fa-fw far fa-folder"></i>
+                <span>{{ topic_label }}</span>
+                <span class="topic-count">{{ topic_posts_count }}</span>
+              </a>
+            {% else %}
+              <span class="nav-link" title="No posts yet">
+                <i class="fa-fw far fa-folder"></i>
+                <span>{{ topic_label }}</span>
+                <span class="topic-count">0</span>
+              </span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      {% endif %}
     </ul>
   </nav>
 
