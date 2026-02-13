@@ -125,6 +125,23 @@ Dir.glob("_posts/*.{md,markdown,html}").sort.each do |path|
 
   errors << "#{path}: missing 'title' in front matter" if data["title"].to_s.strip.empty?
   errors << "#{path}: missing 'date' in front matter" if data["date"].to_s.strip.empty?
+
+  categories = data["categories"]
+  category_count =
+    case categories
+    when Array
+      categories.count { |c| !c.to_s.strip.empty? }
+    when String
+      categories.strip.empty? ? 0 : 1
+    else
+      0
+    end
+
+  if category_count == 0
+    errors << "#{path}: missing 'categories' in front matter"
+  elsif category_count > 1
+    errors << "#{path}: only one category is allowed (found #{category_count})"
+  end
 end
 
 puts errors.join("\n")

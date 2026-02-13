@@ -49,6 +49,7 @@
           {% assign area_name = area.name | default: area %}
           {% assign area_key = area_name | slugify %}
           {% assign area_posts_count = site.categories[area_name] | size %}
+          {% capture area_url %}/categories/{{ area_name | slugify | url_encode }}/{% endcapture %}
 
           {% assign area_active = false %}
           {% if page.layout == 'category' and page.title == area_name %}
@@ -71,20 +72,35 @@
             {% assign area_open = true %}
           {% endif %}
 
-          <li class="nav-item nav-topic{% if area_active or has_active_subtopic %}{{ " active" }}{% endif %}">
-            <button
-              type="button"
-              class="nav-link nav-link-button{% unless area_open %} collapsed{% endunless %}"
-              data-bs-toggle="collapse"
-              data-bs-target=".focus-subtopics-{{ area_key }}"
-              aria-expanded="{% if area_open %}true{% else %}false{% endif %}"
-              aria-controls="focus-subtopics-{{ area_key }}"
-            >
-              <i class="fa-fw far fa-folder"></i>
-              <span>{{ area_name }}</span>
-              <span class="topic-count">{{ area_posts_count }}</span>
-              <i class="fa-fw fas fa-chevron-down toggle-icon"></i>
-            </button>
+          <li class="nav-item nav-topic{% if area_active or has_active_subtopic %}{{ " active" }}{% endif %}{% unless area_posts_count > 0 %}{{ " disabled" }}{% endunless %}">
+            <div class="nav-topic-row">
+              {% if area_posts_count > 0 %}
+                <a href="{{ area_url | relative_url }}" class="nav-link nav-topic-link">
+                  <i class="fa-fw far fa-folder"></i>
+                  <span>{{ area_name }}</span>
+                  <span class="topic-count">{{ area_posts_count }}</span>
+                </a>
+              {% else %}
+                <span class="nav-link nav-topic-link" title="No posts yet">
+                  <i class="fa-fw far fa-folder"></i>
+                  <span>{{ area_name }}</span>
+                  <span class="topic-count">0</span>
+                </span>
+              {% endif %}
+
+              {% if area.subtopics and area.subtopics.size > 0 %}
+                <button
+                  type="button"
+                  class="nav-link nav-link-button{% unless area_open %} collapsed{% endunless %}"
+                  data-bs-toggle="collapse"
+                  data-bs-target=".focus-subtopics-{{ area_key }}"
+                  aria-expanded="{% if area_open %}true{% else %}false{% endif %}"
+                  aria-controls="focus-subtopics-{{ area_key }}"
+                >
+                  <i class="fa-fw fas fa-chevron-down toggle-icon"></i>
+                </button>
+              {% endif %}
+            </div>
           </li>
 
           {% if area.subtopics and area.subtopics.size > 0 %}

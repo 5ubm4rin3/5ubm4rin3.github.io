@@ -2,7 +2,7 @@
 title: "Post Title"
 date: 2026-02-13 00:00:00 +0900
 lang: en
-categories: [Cryptography, Post-Quantum Research]
+categories: [Post-Quantum Research]
 tags: [post-quantum, lattice]
 math: true
 mermaid: false
